@@ -594,14 +594,28 @@
 			bbcodeFilter.addRules( {
 				elements: {
 					blockquote: function( element ) {
+						console.log(element);
 						var quoted = new CKEDITOR.htmlParser.element( 'div' );
 						quoted.children = element.children;
 						element.children = [ quoted ];
 						var citeText = element.attributes.cite;
 						if ( citeText ) {
+							var parts = citeText.split( ' ' );
 							var cite = new CKEDITOR.htmlParser.element( 'cite' );
-							cite.add( new CKEDITOR.htmlParser.text( citeText.replace( /^"|"$/g, '' ) ) );
+
+							cite.add( new CKEDITOR.htmlParser.text( parts[0].replace( /^"|"$/g, '' ) ) );
 							delete element.attributes.cite;
+
+							if ( typeof parts[1] !== 'undefined' ) {
+								element.attributes.postid = parts[1].split('=')[1];
+							}
+							if ( typeof parts[2] !== 'undefined' ) {
+								element.attributes.time = parts[2].split('=')[1];
+							}
+							if ( typeof parts[3] !== 'undefined' ) {
+								element.attributes.userid = parts[3].split('=')[1];
+							}
+
 							element.children.unshift( cite );
 						}
 					},
@@ -694,7 +708,7 @@
 									citeText = cite.name == 'cite' && cite.children[ 0 ].value;
 
 								if ( citeText ) {
-									value = '"' + citeText + '"';
+									value = '"' + citeText + '" post_id=' + element.attributes.postid + ' time=' + element.attributes.time + ' user_id=' + element.attributes.userid;
 									element.children = quoted.children;
 								}
 
