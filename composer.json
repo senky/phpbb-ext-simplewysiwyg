@@ -1,0 +1,24 @@
+{
+    "name": "senky/simplewysiwyg",
+    "type": "phpbb-extension",
+    "description": "Replaces posting area with simple WYSIWYG editor.",
+    "version": "1.0.0",
+    "time": "2019-01-17",
+    "license": "GPL-2.0-only",
+    "authors": [
+        {
+            "name": "Jakub Senko",
+            "email": "jakubsenko@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "composer/installers": "~1.0"
+    },
+    "extra": {
+        "display-name": "Simple WYSIWYG",
+        "soft-require": {
+            "phpbb/phpbb": ">=3.2.0"
+        }
+    }
+}
