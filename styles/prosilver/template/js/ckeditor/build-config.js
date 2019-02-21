@@ -52,6 +52,7 @@ var CKBUILDER_CONFIG = {
 		'tests'
 	],
 	plugins : {
+		'autogrow' : 1,
 		'basicstyles' : 1,
 		'bbcode' : 1,
 		'blockquote' : 1,

@@ -594,7 +594,6 @@
 			bbcodeFilter.addRules( {
 				elements: {
 					blockquote: function( element ) {
-						console.log(element);
 						var quoted = new CKEDITOR.htmlParser.element( 'div' );
 						quoted.children = element.children;
 						element.children = [ quoted ];

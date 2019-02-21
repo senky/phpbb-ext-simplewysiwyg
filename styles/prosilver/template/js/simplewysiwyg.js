@@ -4,45 +4,51 @@ var editor = CKEDITOR.replace('message', {
 		{ name: 'all', items: ['Bold', 'Italic', 'Underline', senky_simplewysiwyg_quote ? 'Blockquote' : true, 'CodeSnippet', 'NumberedList', 'BulletedList', senky_simplewysiwyg_img ? 'Image' : true, senky_simplewysiwyg_url ? 'Link' : true, senky_simplewysiwyg_url ? 'Unlink' : true, 'TextColor', 'FontSize'] },
 		{ name: 'mode', items: ['Source'] },
 	],
+	contentsCss: [
+		CKEDITOR.basePath + '../../../theme/contents.css',
+		CKEDITOR.basePath + '../../../../../../../../assets/css/font-awesome.min.css'
+	],
+	extraPlugins: 'attachment',
 	language: senky_simplewysiwyg_lang,
-	contentsCss: [CKEDITOR.basePath + '../../../theme/contents.css', CKEDITOR.basePath + '../../../../../../../../assets/css/font-awesome.min.css'],
-	height: 280,
-	extraPlugins: 'bbcode,font,colorbutton,attachment',
-	removePlugins: 'filebrowser,format,horizontalrule,pastetext,pastefromword,scayt,showborders,stylescombo,table,tabletools,tableselection,wsc',
-	removeButtons: 'Anchor,BGColor,Font,Strike,Subscript,Superscript,JustifyBlock',
-	disableObjectResizing: true,
+
+	// autogrow
+	autoGrow_minHeight: 280,
+	autoGrow_onStartup: true,
+
+	// font
 	fontSize_sizes: senky_simplewysiwyg_fontSize_sizes,
+
+	// codesnippet
 	codeSnippet_languages: {},
+
+	// smiley
 	smiley_images: senky_simplewysiwyg_smiley_images,
 	smiley_descriptions: senky_simplewysiwyg_smiley_descriptions,
 	smiley_path: senky_simplewysiwyg_smiley_path,
 });
 
 // enable right-side smilies in wysiwyg
-var smilies = document.querySelectorAll('#smiley-box a');
-[].forEach.call(smilies, function(smiley) {
-	smiley.addEventListener('click', function() {
-		var img = this.querySelector('img');
+$('#smiley-box a').on('click', function() {
+	var img = $(this).find('img');
 
-		if (editor.mode == 'source') {
-			var sourceTextarea = editor.container.$.querySelector('.cke_source');
-			var caretPos = sourceTextarea.selectionStart;
-			var value = sourceTextarea.value;
+	if (editor.mode == 'source') {
+		var sourceTextarea = editor.container.$.querySelector('.cke_source');
+		var caretPos = sourceTextarea.selectionStart;
+		var value = sourceTextarea.value;
 
-			sourceTextarea.value = value.substring(0, caretPos) + ' ' + img.getAttribute('alt') + ' ' + value.substring(caretPos);
-		} else {
-			editor.insertElement(editor.document.createElement('img', {
-				attributes: {
-					src: img.getAttribute('src'),
-					'data-cke-saved-src': img.getAttribute('src'),
-					title: img.getAttribute('title'),
-					alt: img.getAttribute('alt'),
-					width: img.getAttribute('width'),
-					height: img.getAttribute('height')
-				}
-			}));
-		}
-	});
+		sourceTextarea.value = value.substring(0, caretPos) + ' ' + img.attr('alt') + ' ' + value.substring(caretPos);
+	} else {
+		editor.insertElement(editor.document.createElement('img', {
+			attributes: {
+				src: img.attr('src'),
+				'data-cke-saved-src': img.attr('src'),
+				title: img.attr('title'),
+				alt: img.attr('alt'),
+				width: img.attr('width'),
+				height: img.attr('height')
+			}
+		}));
+	}
 });
 
 // enable placing attachment inline
