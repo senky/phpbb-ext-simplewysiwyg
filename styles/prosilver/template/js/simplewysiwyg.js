@@ -4,6 +4,7 @@ var editor = CKEDITOR.replace('message', {
 		{ name: 'all', items: ['Bold', 'Italic', 'Underline', senky_simplewysiwyg_quote ? 'Blockquote' : true, 'CodeSnippet', 'NumberedList', 'BulletedList', senky_simplewysiwyg_img ? 'Image' : true, senky_simplewysiwyg_url ? 'Link' : true, senky_simplewysiwyg_url ? 'Unlink' : true, 'TextColor', 'FontSize'] },
 		{ name: 'mode', items: ['Source'] },
 	],
+	language: senky_simplewysiwyg_lang,
 	contentsCss: [CKEDITOR.basePath + '../../../theme/contents.css', CKEDITOR.basePath + '../../../../../../../../assets/css/font-awesome.min.css'],
 	height: 280,
 	extraPlugins: 'bbcode,font,colorbutton,attachment',
