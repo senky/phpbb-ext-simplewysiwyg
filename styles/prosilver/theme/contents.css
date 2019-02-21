@@ -92,3 +92,23 @@ code {
 	line-height: 1.3em;
 	word-wrap: normal;
 }
+
+div[attachid]:before {
+	content: '\f15b';
+	display: inline-block;
+	font-weight: normal;
+	font-style: normal;
+	font-variant: normal;
+	font-family: FontAwesome;
+	font-size: 14px;
+	line-height: 1;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	padding-right: 5px;
+}
+div[attachid] {
+	text-decoration: underline;
+	color: #368AD2;
+	font-weight: bold;
+}

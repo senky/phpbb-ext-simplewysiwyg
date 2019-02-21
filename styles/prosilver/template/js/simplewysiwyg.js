@@ -6,7 +6,7 @@ var editor = CKEDITOR.replace('message', {
 	],
 	contentsCss: [CKEDITOR.basePath + '../../../theme/contents.css', CKEDITOR.basePath + '../../../../../../../../assets/css/font-awesome.min.css'],
 	height: 280,
-	extraPlugins: 'bbcode,font,colorbutton',
+	extraPlugins: 'bbcode,font,colorbutton,attachment',
 	removePlugins: 'filebrowser,format,horizontalrule,pastetext,pastefromword,scayt,showborders,stylescombo,table,tabletools,tableselection,wsc',
 	removeButtons: 'Anchor,BGColor,Font,Strike,Subscript,Superscript,JustifyBlock',
 	disableObjectResizing: true,
@@ -48,15 +48,22 @@ var smilies = document.querySelectorAll('#smiley-box a');
 $(document).on('click', '.file-inline-bbcode', function() {
 	var attachId = $(this).parents('.attach-row').attr('data-attach-id');
 	var index = phpbb.plupload.getIndex(attachId);
-	var bbcode = '[attachment=' + index + ']' + phpbb.plupload.data[index].real_filename + '[/attachment]';
+	var filename = phpbb.plupload.data[index].real_filename;
 
 	if (editor.mode == 'source') {
 		var sourceTextarea = editor.container.$.querySelector('.cke_source');
 		var caretPos = sourceTextarea.selectionStart;
 		var value = sourceTextarea.value;
 
-		sourceTextarea.value = value.substring(0, caretPos) + bbcode + value.substring(caretPos);
+		sourceTextarea.value = value.substring(0, caretPos) + '[attachment=' + index + ']' + filename + '[/attachment]' + value.substring(caretPos);
 	} else {
-		editor.insertText(bbcode);
+		var element = editor.document.createElement('div', {
+			attributes: {
+				attachid: index
+			}
+		});
+		element.appendText(filename);
+
+		editor.insertElement(element);
 	}
 });
