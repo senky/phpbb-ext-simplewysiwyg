@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 // Register the plugin within the editor.
 CKEDITOR.plugins.add( 'simplebox', {

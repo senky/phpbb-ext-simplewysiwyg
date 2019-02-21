@@ -8,7 +8,6 @@ var editor = CKEDITOR.replace('message', {
 		CKEDITOR.basePath + '../../../theme/contents.css',
 		CKEDITOR.basePath + '../../../../../../../../assets/css/font-awesome.min.css'
 	],
-	extraPlugins: 'attachment',
 	language: senky_simplewysiwyg_lang,
 
 	// autogrow
