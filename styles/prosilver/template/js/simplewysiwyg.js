@@ -63,13 +63,6 @@ $(document).on('click', '.file-inline-bbcode', function() {
 
 		sourceTextarea.value = value.substring(0, caretPos) + '[attachment=' + index + ']' + filename + '[/attachment]' + value.substring(caretPos);
 	} else {
-		var element = editor.document.createElement('div', {
-			attributes: {
-				attachid: index
-			}
-		});
-		element.appendText(filename);
-
-		editor.insertElement(element);
+		editor.insertHtml('<div attachid=' + index + '>' + filename + '</div>');
 	}
 });
