@@ -1,1 +1,3 @@
-styles/prosilver/template/js/ckeditor/
+/dev/
+!/dev/build.sh
+/styles/prosilver/template/js/ckeditor/
