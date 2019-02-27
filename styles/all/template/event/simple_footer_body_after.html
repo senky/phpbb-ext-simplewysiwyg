@@ -1,0 +1,27 @@
+{% if smiley %}
+<script>
+// insert smiley into CKEditor
+$('.inner a[href="#"]').on('click', function() {
+	var img = $(this).find('img');
+
+	if (opener.senky_simplewysiwyg_editor.mode == 'source') {
+		var sourceTextarea = opener.senky_simplewysiwyg_editor.container.$.querySelector('.cke_source');
+		var caretPos = sourceTextarea.selectionStart;
+		var value = sourceTextarea.value;
+
+		sourceTextarea.value = value.substring(0, caretPos) + ' ' + img.attr('alt') + ' ' + value.substring(caretPos);
+	} else {
+		opener.senky_simplewysiwyg_editor.insertElement(opener.senky_simplewysiwyg_editor.document.createElement('img', {
+			attributes: {
+				src: img.attr('src'),
+				'data-cke-saved-src': img.attr('src'),
+				title: img.attr('title'),
+				alt: img.attr('alt'),
+				width: img.attr('width'),
+				height: img.attr('height')
+			}
+		}));
+	}
+});
+</script>
+{% endif %}

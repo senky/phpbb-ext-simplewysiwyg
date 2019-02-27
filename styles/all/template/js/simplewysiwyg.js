@@ -1,4 +1,4 @@
-var editor = CKEDITOR.replace('message', {
+window.senky_simplewysiwyg_editor = CKEDITOR.replace('message', {
 	toolbar: [
 		{ name: 'undo', items: ['Undo', 'Redo'] },
 		{ name: 'all', items: ['Bold', 'Italic', 'Underline', senky_simplewysiwyg_quote ? 'Blockquote' : true, 'CodeSnippet', 'NumberedList', 'BulletedList', senky_simplewysiwyg_img ? 'Image' : true, senky_simplewysiwyg_url ? 'Link' : true, senky_simplewysiwyg_url ? 'Unlink' : true, 'TextColor', 'FontSize'] },
@@ -27,17 +27,17 @@ var editor = CKEDITOR.replace('message', {
 });
 
 // enable right-side smilies in wysiwyg
-$('#smiley-box a').on('click', function() {
+$('#smiley-box a[href="#"]').on('click', function() {
 	var img = $(this).find('img');
 
-	if (editor.mode == 'source') {
-		var sourceTextarea = editor.container.$.querySelector('.cke_source');
+	if (senky_simplewysiwyg_editor.mode == 'source') {
+		var sourceTextarea = senky_simplewysiwyg_editor.container.$.querySelector('.cke_source');
 		var caretPos = sourceTextarea.selectionStart;
 		var value = sourceTextarea.value;
 
 		sourceTextarea.value = value.substring(0, caretPos) + ' ' + img.attr('alt') + ' ' + value.substring(caretPos);
 	} else {
-		editor.insertElement(editor.document.createElement('img', {
+		senky_simplewysiwyg_editor.insertElement(senky_simplewysiwyg_editor.document.createElement('img', {
 			attributes: {
 				src: img.attr('src'),
 				'data-cke-saved-src': img.attr('src'),
@@ -56,13 +56,13 @@ $(document).on('click', '.file-inline-bbcode', function() {
 	var index = phpbb.plupload.getIndex(attachId);
 	var filename = phpbb.plupload.data[index].real_filename;
 
-	if (editor.mode == 'source') {
-		var sourceTextarea = editor.container.$.querySelector('.cke_source');
+	if (senky_simplewysiwyg_editor.mode == 'source') {
+		var sourceTextarea = senky_simplewysiwyg_editor.container.$.querySelector('.cke_source');
 		var caretPos = sourceTextarea.selectionStart;
 		var value = sourceTextarea.value;
 
 		sourceTextarea.value = value.substring(0, caretPos) + '[attachment=' + index + ']' + filename + '[/attachment]' + value.substring(caretPos);
 	} else {
-		editor.insertHtml('<div attachid=' + index + '>' + filename + '</div>');
+		senky_simplewysiwyg_editor.insertHtml('<div attachid=' + index + '>' + filename + '</div>');
 	}
 });
