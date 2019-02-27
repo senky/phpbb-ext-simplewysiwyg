@@ -1,0 +1,3 @@
+[submodule "styles/all/template/js/ckeditor"]
+	path = styles/all/template/js/ckeditor
+	url = git@github.com:senky/ckeditor-dev.git
