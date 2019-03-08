@@ -26,43 +26,73 @@ window.senky_simplewysiwyg_editor = CKEDITOR.replace('message', {
 	smiley_path: senky_simplewysiwyg_smiley_path,
 });
 
-// enable right-side smilies in wysiwyg
-$('#smiley-box a[href="#"]').on('click', function() {
-	var img = $(this).find('img');
+// replaces function defined in assets/javascript/editor.js
+window.insert_text = function(text, spaces) {
+	var modeChanged = false;
 
-	if (senky_simplewysiwyg_editor.mode == 'source') {
-		var sourceTextarea = senky_simplewysiwyg_editor.container.$.querySelector('.cke_source');
-		var caretPos = sourceTextarea.selectionStart;
-		var value = sourceTextarea.value;
+	if (spaces) {
+		text = ' ' + text + ' ';
+	}
 
-		sourceTextarea.value = value.substring(0, caretPos) + ' ' + img.attr('alt') + ' ' + value.substring(caretPos);
-	} else {
-		senky_simplewysiwyg_editor.insertElement(senky_simplewysiwyg_editor.document.createElement('img', {
-			attributes: {
-				src: img.attr('src'),
-				'data-cke-saved-src': img.attr('src'),
-				title: img.attr('title'),
-				alt: img.attr('alt'),
-				width: img.attr('width'),
-				height: img.attr('height')
+	// Since we can't programatically convert text to HTML, let's switch editor
+	// to source mode for a while, insert text and then switch back. It is very
+	// fast, user won't even notice it.
+	if (senky_simplewysiwyg_editor.mode != 'source') {
+		modeChanged = senky_simplewysiwyg_editor.mode;
+		senky_simplewysiwyg_editor.setMode('source');
+	}
+
+	var sourceTextarea = senky_simplewysiwyg_editor.container.$.querySelector('.cke_source');
+	var caretPos = sourceTextarea.selectionStart;
+	var value = sourceTextarea.value;
+
+	sourceTextarea.value = value.substring(0, caretPos) + text + value.substring(caretPos);
+
+	if (modeChanged) {
+		senky_simplewysiwyg_editor.setMode(modeChanged);
+	}
+}
+
+// replaces function defined in assets/javascript/plupload.js
+phpbb.plupload.updateBbcode = function(action, index) {
+	var editor = senky_simplewysiwyg_editor,
+		text = editor.getData(),
+		removal = (action === 'removal');
+
+	// Return if the bbcode isn't used at all.
+	if (text.indexOf('[attachment=') === -1) {
+		return;
+	}
+
+	function runUpdate(i) {
+		var regex = new RegExp('\\[attachment=' + i + '\\](.*?)\\[\\/attachment\\]', 'g');
+		text = text.replace(regex, function updateBbcode(_, fileName) {
+			// Remove the bbcode if the file was removed.
+			if (removal && index === i) {
+				return '';
 			}
-		}));
+			var newIndex = i + ((removal) ? -1 : 1);
+			return '[attachment=' + newIndex + ']' + fileName + '[/attachment]';
+		});
 	}
-});
 
-// enable placing attachment inline
-$(document).on('click', '.file-inline-bbcode', function() {
-	var attachId = $(this).parents('.attach-row').attr('data-attach-id');
-	var index = phpbb.plupload.getIndex(attachId);
-	var filename = phpbb.plupload.data[index].real_filename;
-
-	if (senky_simplewysiwyg_editor.mode == 'source') {
-		var sourceTextarea = senky_simplewysiwyg_editor.container.$.querySelector('.cke_source');
-		var caretPos = sourceTextarea.selectionStart;
-		var value = sourceTextarea.value;
-
-		sourceTextarea.value = value.substring(0, caretPos) + '[attachment=' + index + ']' + filename + '[/attachment]' + value.substring(caretPos);
+	// Loop forwards when removing and backwards when adding ensures we don't
+	// corrupt the bbcode index.
+	var i;
+	if (removal) {
+		for (i = index; i < phpbb.plupload.ids.length; i++) {
+			runUpdate(i);
+		}
 	} else {
-		senky_simplewysiwyg_editor.insertHtml('<div attachid=' + index + '>' + filename + '</div>');
+		for (i = phpbb.plupload.ids.length - 1; i >= index; i--) {
+			runUpdate(i);
+		}
 	}
-});
+
+	if (editor.mode == 'source') {
+		editor.container.$.querySelector('.cke_source').value = text;
+	}
+	else {
+		editor.setData(text);
+	}
+};
