@@ -1,4 +1,6 @@
 window.senky_simplewysiwyg_editor = CKEDITOR.replace('message', {
+	customConfig: false,
+	stylesSet: false,
 	toolbar: [
 		{ name: 'undo', items: ['Undo', 'Redo'] },
 		{ name: 'all', items: ['Bold', 'Italic', 'Underline', senky_simplewysiwyg_quote ? 'Blockquote' : true, 'CodeSnippet', 'NumberedList', 'BulletedList', senky_simplewysiwyg_img ? 'Image' : true, senky_simplewysiwyg_url ? 'Link' : true, senky_simplewysiwyg_url ? 'Unlink' : true, 'TextColor', 'FontSize'] },
