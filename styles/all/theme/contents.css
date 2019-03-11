@@ -93,7 +93,7 @@ code {
 	word-wrap: normal;
 }
 
-div[attachid]:before {
+div[data-attachid]:before {
 	content: '\f15b';
 	display: inline-block;
 	font-weight: normal;
@@ -107,7 +107,7 @@ div[attachid]:before {
 	-moz-osx-font-smoothing: grayscale;
 	padding-right: 5px;
 }
-div[attachid] {
+div[data-attachid] {
 	text-decoration: underline;
 	color: #368AD2;
 	font-weight: bold;
