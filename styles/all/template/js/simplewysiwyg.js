@@ -1,10 +1,10 @@
 window.senky_simplewysiwyg_editor = CKEDITOR.replace('message', {
-	customConfig: false,
-	stylesSet: false,
+	// customConfig: false,
+	// stylesSet: false,
 	toolbar: [
-		{ name: 'undo', items: ['Undo', 'Redo'] },
-		{ name: 'all', items: ['Bold', 'Italic', 'Underline', senky_simplewysiwyg_quote ? 'Blockquote' : true, 'CodeSnippet', 'NumberedList', 'BulletedList', senky_simplewysiwyg_img ? 'Image' : true, senky_simplewysiwyg_url ? 'Link' : true, senky_simplewysiwyg_url ? 'Unlink' : true, 'TextColor', 'FontSize'] },
-		{ name: 'mode', items: ['Source'] },
+		{ items: ['Undo', 'Redo'] },
+		{ items: ['Bold', 'Italic', 'Underline', senky_simplewysiwyg_quote ? 'Blockquote' : true, 'CodeSnippet', 'NumberedList', 'BulletedList', senky_simplewysiwyg_img ? 'Image' : true, senky_simplewysiwyg_url ? 'Link' : true, senky_simplewysiwyg_url ? 'Unlink' : true, 'TextColor', 'FontSize'] },
+		{ items: ['Source'] },
 	],
 	contentsCss: [
 		CKEDITOR.basePath + '../../../theme/contents.css',
@@ -30,30 +30,21 @@ window.senky_simplewysiwyg_editor = CKEDITOR.replace('message', {
 
 // replaces function defined in assets/javascript/editor.js
 window.insert_text = function(text, spaces) {
-	var modeChanged = false;
-
 	if (spaces) {
 		text = ' ' + text + ' ';
 	}
 
-	// Since we can't programatically convert text to HTML, let's switch editor
-	// to source mode for a while, insert text and then switch back. It is very
-	// fast, user won't even notice it.
-	if (senky_simplewysiwyg_editor.mode != 'source') {
-		modeChanged = senky_simplewysiwyg_editor.mode;
-		senky_simplewysiwyg_editor.setMode('source');
+	if (senky_simplewysiwyg_editor.mode == 'source') {
+		var sourceTextarea = senky_simplewysiwyg_editor.container.$.querySelector('.cke_source');
+		var caretPos = sourceTextarea.selectionStart;
+		var value = sourceTextarea.value;
+
+		sourceTextarea.value = value.substring(0, caretPos) + text + value.substring(caretPos);
+	} else {
+		var html = CKEDITOR.BBCodeToHtml(text);
+		senky_simplewysiwyg_editor.insertHtml(html);
 	}
-
-	var sourceTextarea = senky_simplewysiwyg_editor.container.$.querySelector('.cke_source');
-	var caretPos = sourceTextarea.selectionStart;
-	var value = sourceTextarea.value;
-
-	sourceTextarea.value = value.substring(0, caretPos) + text + value.substring(caretPos);
-
-	if (modeChanged) {
-		senky_simplewysiwyg_editor.setMode(modeChanged);
-	}
-}
+};
 
 // replaces function defined in assets/javascript/plupload.js
 phpbb.plupload.updateBbcode = function(action, index) {
@@ -93,8 +84,7 @@ phpbb.plupload.updateBbcode = function(action, index) {
 
 	if (editor.mode == 'source') {
 		editor.container.$.querySelector('.cke_source').value = text;
-	}
-	else {
+	} else {
 		editor.setData(text);
 	}
 };

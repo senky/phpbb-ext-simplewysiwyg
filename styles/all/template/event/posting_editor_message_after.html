@@ -1,11 +1,11 @@
 <script>
-	var senky_simplewysiwyg_lang = '{{ S_USER_LANG }}';
+	var senky_simplewysiwyg_lang = '{{ S_USER_LANG | e('js') }}';
 	var senky_simplewysiwyg_quote = {{ S_BBCODE_QUOTE ? 'true' : 'false' }};
 	var senky_simplewysiwyg_img = {{ S_BBCODE_IMG ? 'true' : 'false' }};
 	var senky_simplewysiwyg_url = {{ S_LINKS_ALLOWED ? 'true' : 'false' }};
-	var senky_simplewysiwyg_fontSize_sizes = '{{ lang('FONT_TINY') }}/50%;{{ lang('FONT_SMALL') }}/85%;{{ lang('FONT_NORMAL') }}/100%;{{ lang('FONT_LARGE') }}/150%;{{ lang('FONT_HUGE') }}/200%;';
-	var senky_simplewysiwyg_smiley_images = [{% for s in smiley %}"{{ s.SMILEY_IMG | replace({'./images/smilies/': ''}) }}"{% if !s.S_LAST_ROW %}, {% endif %}{% endfor %}];
-	var senky_simplewysiwyg_smiley_descriptions = [{% for s in smiley %}"{{ s.SMILEY_CODE }}"{% if !s.S_LAST_ROW %}, {% endif %}{% endfor %}];
+	var senky_simplewysiwyg_fontSize_sizes = '{{ lang('FONT_TINY') | e('js') }}/50%;{{ lang('FONT_SMALL') | e('js') }}/85%;{{ lang('FONT_NORMAL') | e('js') }}/100%;{{ lang('FONT_LARGE') | e('js') }}/150%;{{ lang('FONT_HUGE') | e('js') }}/200%;';
+	var senky_simplewysiwyg_smiley_images = [{% for s in smiley %}"{{ s.SMILEY_IMG | replace({'./images/smilies/': ''}) | e('js') }}"{% if !s.S_LAST_ROW %}, {% endif %}{% endfor %}];
+	var senky_simplewysiwyg_smiley_descriptions = [{% for s in smiley %}"{{ s.SMILEY_CODE | e('js') }}"{% if !s.S_LAST_ROW %}, {% endif %}{% endfor %}];
 	var senky_simplewysiwyg_smiley_path = '{{ ROOT_PATH }}images/smilies/';
 </script>
 {% INCLUDEJS '@senky_simplewysiwyg/js/ckeditor/ckeditor.js' %}
