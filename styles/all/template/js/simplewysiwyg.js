@@ -28,6 +28,12 @@ window.senky_simplewysiwyg_editor = CKEDITOR.replace('message', {
 	smiley_path: senky_simplewysiwyg_smiley_path,
 });
 
+// hide BBcode buttons once CKEditor is initialised
+window.senky_simplewysiwyg_editor.once('instanceReady', function() {
+	var buttons = document.getElementById('format-buttons');
+	buttons.parentElement.removeChild(buttons);
+});
+
 // replaces function defined in assets/javascript/editor.js
 window.insert_text = function(text, spaces) {
 	if (spaces) {
