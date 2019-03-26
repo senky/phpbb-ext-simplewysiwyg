@@ -1,28 +1,15 @@
 /*
-Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+CSS used inside CKEditor iframe to style WYSIWYG editor just the same as the final result.
 */
 
 body
 {
-	/* Font */
-	font-family: "Lucida Grande","Trebuchet MS",Verdana,Helvetica,Arial,sans-serif;
-
+	font-family: "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, Arial, sans-serif;
 	font-size: 13px;
-
-	/* Text color */
-	color: #000;
-
-	/* Remove the background color to make it transparent */
-	background-color: #fff;
-
-	margin: 10px;
-}
-
-.cke_editable
-{
-	font-size: 14px;
 	line-height: 1.4;
+	color: #000;
+	background-color: #fff;
+	margin: 10px;
 }
 
 p {
@@ -58,23 +45,12 @@ blockquote:before:-moz-only-whitespace {
 	display: none;
 }
 
-a
-{
+a {
 	color: #0782C1;
 }
 
-ol,ul,dl
-{
-	/* IE7: reset rtl list margin. (#7334) */
-	*margin-right: 0px;
-	/* preserved spaces for list items with text direction other than the list. (#6249,#8049)*/
-	padding: 0 40px;
-}
-
-h1,h2,h3,h4,h5,h6
-{
-	font-weight: normal;
-	line-height: 1.2;
+ol, ul {
+	margin: 0.8em 0 0.9em 3em;
 }
 
 code {
