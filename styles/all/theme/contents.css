@@ -2,8 +2,7 @@
 CSS used inside CKEditor iframe to style WYSIWYG editor just the same as the final result.
 */
 
-body
-{
+body {
 	font-family: "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, Arial, sans-serif;
 	font-size: 13px;
 	line-height: 1.4;
@@ -82,8 +81,14 @@ div[data-attachid]:before {
 	-moz-osx-font-smoothing: grayscale;
 	padding-right: 5px;
 }
+
 div[data-attachid] {
 	text-decoration: underline;
 	color: #368AD2;
 	font-weight: bold;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
 }
