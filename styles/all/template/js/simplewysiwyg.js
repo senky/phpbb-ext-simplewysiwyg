@@ -11,6 +11,7 @@ window.senky_simplewysiwyg_editor = CKEDITOR.replace('message', {
 		CKEDITOR.basePath + '../../../../../../../../assets/css/font-awesome.min.css'
 	],
 	language: senky_simplewysiwyg_lang,
+	disableNativeSpellChecker: false,
 
 	// autogrow
 	autoGrow_minHeight: 280,
