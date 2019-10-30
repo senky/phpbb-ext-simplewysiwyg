@@ -2,7 +2,7 @@
     "name": "senky/simplewysiwyg",
     "type": "phpbb-extension",
     "description": "Replaces posting area with simple WYSIWYG editor.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "license": "GPL-2.0-only",
     "authors": [
         {
